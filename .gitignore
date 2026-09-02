@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+npm-debug.log*
+.DS_Store
+.env*.local
+.claude
+
+# Raw, full-resolution source photos (~1.3GB) now live one level up, as a sibling
+# of this project folder (../source-photos), not inside it — both so the archive
+# never ships in the static export and so `next dev`'s file watcher doesn't have
+# to watch it. public/items/ holds the resized copies the site actually uses;
+# regenerate both with `npm run catalog:generate`.
+_gen_skipped.log
