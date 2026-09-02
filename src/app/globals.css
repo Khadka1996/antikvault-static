@@ -1,0 +1,271 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind's default `amber` scale on a dark `amber-950` canvas.
+ * `amber-*` utilities are built into Tailwind v4 — no @theme colours needed.
+ */
+@theme {
+  /* Single site-wide background colour = amber-950. Use `bg-canvas` anywhere
+     a surface should sit flush with the page background. */
+  --color-canvas: #451a03;
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --animate-fade-in: fadeIn 0.8s ease-in both;
+  --animate-slide-up: slideUp 0.6s ease-out both;
+  --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@layer base {
+  /* No global `scroll-behavior: smooth` on <html>: it makes Next's router
+     scroll-to-top-on-navigation animate instead of snap, which visibly races
+     new-page content still loading/hydrating (e.g. the item detail page's
+     sticky image gallery) and can leave the page looking like it "settled"
+     mid-scroll instead of opening at the top. Components that want an
+     intentional smooth scroll (e.g. PaginatedGrid's page-change scroll) pass
+     `behavior: 'smooth'` directly to scrollIntoView/scrollTo, which works
+     independently of this CSS property. */
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-canvas);
+    color: #fef3c7; /* amber-100 */
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid #fbbf24; /* amber-400 */
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: #78350f; /* amber-900 */
+    color: #fffbeb; /* amber-50 */
+    border: 1px solid #b45309; /* amber-700 */
+    border-radius: 0.5rem;
+    transition: top 0.2s ease-in-out;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Gold primary button — matches the reference's from-amber-600 to-amber-500 */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to right, #d97706, #f59e0b); /* amber-600 -> amber-500 */
+    color: #451a03; /* amber-950 */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(to right, #f59e0b, #fbbf24); /* amber-500 -> amber-400 */
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(120, 53, 15, 0.5); /* amber-900/50 */
+    color: #fde68a; /* amber-200 */
+    border: 1px solid rgba(180, 83, 9, 0.5); /* amber-700/50 */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(146, 64, 14, 0.5); /* amber-800/50 */
+    border-color: rgba(217, 119, 6, 0.5); /* amber-600/50 */
+  }
+
+  .btn-subtle {
+    padding: 0.5rem 1rem;
+    color: #fcd34d; /* amber-300 */
+    transition: color 0.2s;
+  }
+
+  .btn-subtle:hover {
+    color: #fffbeb;
+  }
+
+  /* Panel / card surface — from-amber-900/30 to-amber-800/15, border-amber-700/40 */
+  .card-gradient {
+    background: linear-gradient(to bottom right, rgba(120, 53, 15, 0.3), rgba(146, 64, 14, 0.15));
+    border: 1px solid rgba(180, 83, 9, 0.4);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(0.5rem);
+  }
+
+  .card-hover {
+    background: linear-gradient(to bottom right, rgba(120, 53, 15, 0.3), rgba(146, 64, 14, 0.15));
+    border: 1px solid rgba(180, 83, 9, 0.4);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(0.5rem);
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  }
+
+  .card-hover:hover {
+    border-color: rgba(217, 119, 6, 0.5); /* amber-600/50 */
+    box-shadow: 0 12px 20px -6px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px);
+  }
+
+  .heading-xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    color: #fcd34d; /* amber-300 fallback */
+    background: linear-gradient(to right, #fffbeb, #fbbf24); /* amber-50 -> amber-400 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media (min-width: 768px) {
+    .heading-xl {
+      font-size: 3rem;
+      line-height: 3.5rem;
+    }
+  }
+
+  .heading-lg {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    color: #fffbeb; /* amber-50 */
+  }
+
+  @media (min-width: 768px) {
+    .heading-lg {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  .heading-md {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color: #fef3c7; /* amber-100 */
+  }
+
+  @media (min-width: 768px) {
+    .heading-md {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    background: rgba(217, 119, 6, 0.2); /* amber-600/20 */
+    color: #fcd34d; /* amber-300 */
+    border: 1px solid rgba(245, 158, 11, 0.3); /* amber-500/30 */
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .badge-accent {
+    background: rgba(251, 191, 36, 0.2); /* amber-400/20 */
+    color: #fbbf24;
+  }
+
+  .badge-success {
+    background: rgba(16, 185, 129, 0.2); /* emerald-500/20 */
+    color: #6ee7b7;
+  }
+
+  .badge-warning {
+    background: rgba(251, 146, 60, 0.2);
+    color: #fed7aa;
+  }
+
+  .badge-danger {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+  }
+
+  .text-muted {
+    color: #fbbf24; /* amber-400 */
+  }
+
+  .divider {
+    border-top: 1px solid rgba(180, 83, 9, 0.3);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-in both;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out both;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
