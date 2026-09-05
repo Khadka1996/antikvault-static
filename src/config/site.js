@@ -14,9 +14,9 @@ export const siteConfig = {
   email: 'info@antikvault.com',
 
   // Digits only, full international format, NO leading "+" (wa.me requirement).
-  whatsappNumber: '9779823153502',
+  whatsappNumber: '9779744959088',
   // Same number, formatted for display (footer, contact page, etc).
-  whatsappDisplay: '+977 98231 53502',
+  whatsappDisplay: '+977 974-4959088',
 
   location: 'Kathmandu, Nepal',
   timezone: 'NPT (UTC+5:45)',
